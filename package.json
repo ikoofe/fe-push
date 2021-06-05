@@ -1,0 +1,18 @@
+{
+  "name": "koo-rss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.3",
+    "cron": "^1.8.2",
+    "moment": "^2.29.1",
+    "rss-parser": "^3.9.0",
+    "superagent": "^6.1.0"
+  }
+}

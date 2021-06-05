@@ -1,0 +1,20 @@
+{
+  "apps": {
+    "name": "fe-rss",
+    "cwd": "./",
+    "script": "index.js",
+    "watch": ["resource", "index.js"],
+    "ignore_watch": ["node_modules", "logs"],
+    "log_date_format": "YYYY-MM-DD HH:mm:ss",
+    "instance_var": "INSTANCE_ID",
+    "watch_options": {
+      "followSymlinks": false
+    },
+    "instances": 1,
+    "error_file": "./logs/app-err.log",
+    "out_file": "./logs/app-out.log",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
+}

@@ -14,7 +14,9 @@
     "error_file": "./logs/app-err.log",
     "out_file": "./logs/app-out.log",
     "env": {
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "WECHATY_LOG": "verbose",
+      "WECHATY_PUPPET": "wechaty-puppet-wechat"
     }
   }
 }

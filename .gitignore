@@ -3,3 +3,5 @@ node_modules
 deploy.sh
 production.json
 development.json
+wechat-bot.memory-card.json
+.DS_Store

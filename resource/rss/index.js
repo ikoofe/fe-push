@@ -39,8 +39,8 @@ function requestBlogs(urls) {
   });
 }
 
-module.exports = () => {
-  return Promise.all(requestBlogs(feeds.en)).then((blogs) => {
+module.exports = (categroy = 'en') => {
+  return Promise.all(requestBlogs(feeds[categroy])).then((blogs) => {
     return blogs
       .reduce((current, all) => [...current, ...all], [])
       .filter((blog, index, array) => {

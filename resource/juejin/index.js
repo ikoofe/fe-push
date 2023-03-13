@@ -48,7 +48,7 @@ module.exports = () => {
           const { article_info = {}, article_id } = item;
           const { title } = article_info;
           return {
-            title,
+            title: `${title} - 掘金`,
             link: `https://juejin.cn/post/${article_id}`,
           };
         });

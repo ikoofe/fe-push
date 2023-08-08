@@ -69,10 +69,3 @@ npm config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-li
 
 如果 npm install 的时候报一下错误信息： `Failed to set up Chromium r982053! Set "PUPPETEER_SKIP_DOWNLOAD" env ...`
 
-可以运行
-
-```sh
-export PUPPETEER_SKIP_DOWNLOAD=true
-
-npm i
-```

@@ -9,7 +9,6 @@ const Wechaty = require('wechaty');
 const { ScanStatus, WechatyBuilder, log } = Wechaty;
 
 let isLogin = false;
-
 function onScan(qrcode, status) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
     qrTerm.generate(qrcode, { small: true }); // show qrcode on console
@@ -55,7 +54,15 @@ const bot = WechatyBuilder.build({
    */
 
   // puppet: 'wechaty-puppet-hostie',
+  puppetOptions: {
+    // head: true,
+    uos: true,  // 开启uos协议
+    launchOptions: {
+    }
+
+  },
   puppet: 'wechaty-puppet-wechat',
+
 });
 
 bot.on('scan', onScan);
@@ -63,34 +70,34 @@ bot.on('login', onLogin);
 bot.on('logout', onLogout);
 bot.on('message', onMessage);
 
-bot
-  .start()
-  .then(() => log.info('StarterBot', 'Starter Bot Started.'))
-  .catch((e) => log.error('StarterBot', e));
 
-
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms)).then(() => {
-    if (!isLogin) {
-      return sleep(ms)
-    }
-  });
+async function start() {
+  if (isLogin) {
+    return;
+  }
+  return bot
+    .start()
+    .then(() => log.info('StarterBot', 'Starter Bot Started.'))
+    .catch((e) => log.error('StarterBot', e));
 }
 
+start();
+
 module.exports = {
-  send: async function ({ topic, title, blogs }) {
-    if (!isLogin) {
-      await sleep(5000)
-    }
+  start: start,
+  send: async function ({ token, title, blogs }) {
     if (blogs.length === 0) {
       return;
     }
+    if (!isLogin) {
+      return;
+    }
     const content = blogs.map((blog) => `「${blog.title}」${blog.link}`).join('\n');
-    const room = await bot.Room.find({ topic });
+    const room = await bot.Room.find({ topic: token });
     log.info((room || '').toString());
     if (room) {
       return room.say(`${title}\n${content}`).then((res) => {
-        log('wechat got ' + JSON.stringify(res));
+        log.info('wechat got ' + JSON.stringify(res));
         return res;
       });
     }

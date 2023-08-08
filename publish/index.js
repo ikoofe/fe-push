@@ -1,11 +1,14 @@
 const config = require('config');
+const dingding = require('./dingding');
+const wechat = require('./wechat');
+const wecom = require('./wecom');
+const lark = require('./lark');
+
+const { dingToken, wecomToken, wechatToken, larkToken, title = '每日汇总' } = config;
 
 module.exports = async ({ blogs }) => {
-  const { dingToken, wecomToken, wechatToken, larkToken, title = '每日汇总' } = config;
   try {
     if (wecomToken) {
-      const wecom = require('./wecom');
-
       await wecom.send({
         blogs,
         title,
@@ -14,8 +17,6 @@ module.exports = async ({ blogs }) => {
     }
   
     if (dingToken) {
-      const dingding = require('./dingding');
-
       await dingding.send({
         blogs,
         title,
@@ -24,8 +25,6 @@ module.exports = async ({ blogs }) => {
     }
   
     if (wechatToken) {
-      const wechat = require('./wechat');
-
       await wechat.send({
         blogs,
         title,
@@ -34,8 +33,6 @@ module.exports = async ({ blogs }) => {
     }
 
     if (larkToken) {
-      const lark = require('./lark');
-
       await lark.send({
         blogs,
         title,

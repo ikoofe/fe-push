@@ -1,43 +1,21 @@
-const CronJob = require("cron").CronJob;
-const config = require("config");
+const config = require('config');
+const CronJob = require('cron').CronJob;
 
-// const wechat = require('./wechat');
-// const dingding = require('./dingding');
-const wecom = require('./wecom');
-
-const getJuejinPost = require("./resource/juejin");
-const getRSSPost = require("./resource/rss");
+const subscribe = require('./subscribe');
+const publish = require('./publish');
 
 new CronJob(
-  "0 00 10 * * *",
+  config.cronTime || '0 00 10 * * *',
   async function () {
-    const juejinList = await getJuejinPost().catch(() => []);
-    const cnRSSList = await getRSSPost('cn').catch(() => []);
-    const enRSSList = await getRSSPost('en').catch(() => []);
-
-    const blogs = [...cnRSSList, ...enRSSList, ...juejinList];
-  
-    wecom.send({
-      blogs: blogs.map((blog) => `- [${blog.title}](${blog.link})`),
-      title: '每日汇总',
-      token: config.wecomKey,
-    })
-
-    // dingding.send({ 
-    //   text: items.map((blog) => `- [${blog.title}](${blog.link})`);,
-    //   title: '早读文章汇总',
-    //   dingToken: config.dingToken,
-    // })
-
-    // wechat.send({
-    //   topic: config.wxTopic,
-    //   title: '掘金文章',
-    //   text: items.map((blog) => `「${blog.title}」${blog.link}`).join('\n')
-    // });
+    const blogs = await subscribe();
+    const error = await publish({ blogs });
+    if (error) {
+      console.log(error);
+    }
   },
   null,
   true,
-  "Asia/Shanghai"
+  'Asia/Shanghai'
 ).start();
 
-console.log("服务已经启动!");
+console.log('服务已经启动!');

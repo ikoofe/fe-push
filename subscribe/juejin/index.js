@@ -1,44 +1,36 @@
-const request = require("superagent");
-const moment = require("moment");
-
-const ignoreTagIds = [
-  6809637767543259144, // 面试
-];
-const ignoreWord = /招|试|历/;
+const request = require('superagent');
+const moment = require('moment');
+const rules = require('./rules');
 
 module.exports = () => {
   return request
-    .post("https://api.juejin.cn/recommend_api/v1/article/recommend_cate_feed")
+    .post('https://api.juejin.cn/recommend_api/v1/article/recommend_cate_feed')
     .send({
       id_type: 2,
-      sort_type: 3, // 3,
-      cate_id: "6809637767543259144",
-      cursor: "0",
+      sort_type: 3,
+      cate_id: rules.cateId || '6809637767543259144', // 前端
+      cursor: '0',
       limit: 20,
     })
     .then((res) => {
-      const endTime = moment().add(-1, "days") / 1000;
-      const startTime = moment().add(-2, "days") / 1000;
+      const endTime = moment().add(-1, 'days') / 1000;
+      const startTime = moment().add(-2, 'days') / 1000;
       const { data = [] } = res.body;
       const blogs = data
         .filter((item) => {
           const { article_info = {} } = item;
           const { ctime, tag_ids, title, brief_content } = article_info;
-
           if (+ctime > endTime || +ctime < startTime) {
             return false;
           }
 
-          const hasIgnoreTag = tag_ids.some((tag) =>
-            ignoreTagIds.includes(tag)
-          );
-          if (hasIgnoreTag) {
+          const isIgnoreTag = tag_ids.some((tag) => rules.ignoreTagIds.includes(tag));
+          if (isIgnoreTag) {
             return false;
           }
 
-          const hasIgnoreWord =
-            ignoreWord.test(title) || ignoreWord.test(brief_content);
-          if (hasIgnoreWord) {
+          const isIgnoreWord = rules.ignoreWord.test(title) || rules.ignoreWord.test(brief_content);
+          if (isIgnoreWord) {
             return false;
           }
 
@@ -54,5 +46,8 @@ module.exports = () => {
         });
 
       return blogs;
+    }).catch((error) => {
+      console.log('get juejin blogs error: ', error)
+      return [];
     });
 };

@@ -1,5 +1,9 @@
 {
   "dingToken": "",
-  "wxTopic": "",
-  "wecomKey": ""
+  "wecomToken": "",
+  "larkToken": "",
+  "wechatToken": "",
+
+  "cronTime": "0 00 10 * * *",
+  "title": "每日汇总"
 }

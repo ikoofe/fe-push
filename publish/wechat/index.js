@@ -81,8 +81,6 @@ async function start() {
     .catch((e) => log.error('StarterBot', e));
 }
 
-start();
-
 module.exports = {
   start: start,
   send: async function ({ token, title, blogs }) {

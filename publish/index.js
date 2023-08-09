@@ -6,10 +6,14 @@ const lark = require('./lark');
 
 const { dingToken, wecomToken, wechatToken, larkToken, title = '每日汇总' } = config;
 
+if (wechatToken) {
+  wechat.start();
+}
+
 module.exports = async ({ blogs }) => {
   try {
     if (wecomToken) {
-      await wecom.send({
+      wecom.send({
         blogs,
         title,
         token: wecomToken,
@@ -17,7 +21,7 @@ module.exports = async ({ blogs }) => {
     }
   
     if (dingToken) {
-      await dingding.send({
+      dingding.send({
         blogs,
         title,
         token: dingToken,
@@ -25,7 +29,7 @@ module.exports = async ({ blogs }) => {
     }
   
     if (wechatToken) {
-      await wechat.send({
+      wechat.send({
         blogs,
         title,
         token: wechatToken,
@@ -33,7 +37,7 @@ module.exports = async ({ blogs }) => {
     }
 
     if (larkToken) {
-      await lark.send({
+      lark.send({
         blogs,
         title,
         token: larkToken,

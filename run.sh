@@ -1,3 +1,3 @@
-npm install --registry=https://registry.npm.taobao.org
+npm install
 pm2 stop fe-rss
 pm2 start ./pm2.json

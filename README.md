@@ -69,3 +69,15 @@ npm config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-li
 
 如果 npm install 的时候报一下错误信息： `Failed to set up Chromium r982053! Set "PUPPETEER_SKIP_DOWNLOAD" env ...`
 
+```shell
+npm config set puppeteer_download_host https://npmmirror.com/mirrors/
+```
+
+centos 7 如果 npm i 一直报下面的错误
+
+npm ERR! path /root/project/fe-rss/node_modules/leveldown
+npm ERR! command failed
+npm ERR! command sh -c -- node-gyp-build
+npm ERR! sh: node-gyp-build: command not found
+
+那就使用 pnpm 试试

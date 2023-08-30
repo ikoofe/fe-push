@@ -6,8 +6,8 @@ function requestRss(urls) {
   const parser = new Parser({
     timeout: 5000,
   });
-  const yestoday = +moment({ hour: 0, minute: 0, seconds: 0 }).add(-1, 'days');
-  const today = +moment({ hour: 0, minute: 0, seconds: 0 });
+  const startTime = +moment({ hour: 0, minute: 0, seconds: 0 }).add(-1, 'days');
+  const endTime = +moment({ hour: 0, minute: 0, seconds: 0 });
   return urls.map((url) => {
     return new Promise((resolve) => {
       try {
@@ -22,7 +22,10 @@ function requestRss(urls) {
                 content: item.content || item['content:encoded'],
                 pubDate: +new Date(item.pubDate),
               }))
-              .filter((item) => yestoday < item.pubDate && today >= item.pubDate);
+              .filter((item) => {
+                console.log(url, item)
+                return startTime < item.pubDate && endTime >= item.pubDate;
+              });
 
             resolve(blogs);
           })

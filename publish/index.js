@@ -10,7 +10,7 @@ if (wechatToken) {
   wechat.start();
 }
 
-module.exports = async ({ blogs }) => {
+module.exports = async (blogs) => {
   try {
     if (wecomToken) {
       wecom.send({

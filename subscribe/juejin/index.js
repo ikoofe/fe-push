@@ -13,8 +13,8 @@ module.exports = () => {
       limit: 20,
     })
     .then((res) => {
-      const endTime = moment().add(-1, 'days') / 1000;
-      const startTime = moment().add(-2, 'days') / 1000;
+      const startTime = +moment({ hour: 0, minute: 0, seconds: 0 }).add(-2, 'days') / 1000;
+      const endTime = +moment({ hour: 0, minute: 0, seconds: 0 }).add(-1, 'days') / 1000;
       const { data = [] } = res.body;
       const blogs = data
         .filter((item) => {
